@@ -1,0 +1,114 @@
+create table Building(
+Building_id int identity (1,1),
+Building_Number int primary key not null,
+Name varchar(255),
+Area varchar(255),
+Type varchar(255)
+);
+
+create table Equipment(
+Equipment_id int identity (1,1),
+Equipment_Type varchar(255) primary key not null,
+Number_Lots int,
+Building_Number int,
+Foreign Key (Building_Number) references Building on delete cascade on update cascade ,
+);
+
+create table Sport(
+Sports_id int identity(1,1),
+Sports_Name varchar(255) primary key not null,
+)
+
+create table Delegation_Chief(
+DelegationChief_id int identity (1,1),
+First_Name varchar(255) primary key not null,
+Last_Name varchar(255),
+Phone_Number varchar(255),
+)
+
+create table Hotel_Room(
+HotelRoom_id int identity (1,1),
+Number int primary key not null,
+Type varchar(255),
+Price decimal(4,2),
+First_Name varchar(255),
+foreign key (First_Name) references Delegation_Chief on delete cascade on update cascade,
+)
+
+create table Reservation(
+Reservation_id int primary key identity (1,1),
+Date date,
+Starting_hour varchar(255),
+Finishing_hour varchar(255),
+Building_Number int,
+Sports_Name varchar(255),
+First_Name varchar(255),
+foreign key (First_Name) references Delegation_Chief on delete cascade on update cascade,
+foreign key (Sports_Name) references Sport on delete cascade on update cascade,
+foreign key (Building_Number) references Building on delete cascade on update cascade,
+)
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+ALTER TABLE Reservation
+ALTER COLUMN Date varchar(10);
+
+alter table hotel_room
+alter column price decimal(8,2);
+
+INSERT INTO Sport (Sports_Name)
+VALUES
+    ('Tennis'),
+    ('Football');
+
+INSERT INTO Delegation_Chief (First_Name, Last_Name, Phone_Number)
+VALUES
+    ('John', 'Doe', '123-456-7890'),
+    ('Jane', 'Smith', '987-654-3210'),
+    ('Alice', 'Johnson', '555-123-4567'),
+    ('Bob', 'Anderson', '777-888-9999'),
+    ('Eva', 'Williams', '111-222-3333');
+
+
+INSERT INTO Building (Building_Number, Name, Area, Type)
+VALUES
+    (1, 'Agassi', 'Outdoor', 'Tennis'),
+    (2, 'Zidane', 'Outdoor', 'Football'),
+    (3, 'Federer', 'Indoor', 'Tennis'),
+    (4, 'Pele', 'Indoor', 'Football'),
+    (5, 'Jordan', 'Outdoor', 'Basketball');
+
+
+INSERT INTO Reservation (Date, Starting_hour, Building_Number, Sports_Name, First_Name)
+VALUES
+    ('2012-01-01', '14:00', 1, 'Tennis', 'John'),
+    ('2012-01-01', '16:00', 2, 'Football', 'Jane'),
+    ('2012-01-02', '15:30', 1, 'Tennis', 'Alice'),
+    ('2011-12-31', '18:00', 3, 'Tennis', 'Bob'),
+    ('2011-12-31', '20:00', 4, 'Football', 'Eva');
+
+
+INSERT INTO Equipment (Equipment_Type, Number_Lots, Building_Number)
+VALUES
+    ('Tennis Racket', 10, 1),
+    ('Football', 5, 2),
+    ('Basketball', 8, 5),
+    ('Volleyball', 6, 3),
+    ('Soccer Ball', 7, 4);
+
+INSERT INTO Hotel_Room (Number, Type, Price, First_Name)
+VALUES
+    (101, 'Single', 50.00, 'John'),
+    (102, 'Double', 80.00, 'Jane'),
+    (201, 'Suite', 120.00, 'Alice'),
+    (202, 'Single', 60.00, 'Bob'),
+    (301, 'Double', 90.00, 'Eva');
+
+
+INSERT INTO Reservation (Date, Starting_hour, Building_Number, Sports_Name, First_Name)
+VALUES
+    ('2011-05-15', '14:00', 1, 'Tennis', 'John'),
+    ('2011-06-20', '16:00', 2, 'Football', 'Jane'),
+    ('2011-07-10', '15:30', 1, 'Tennis', 'Alice'),
+    ('2011-08-05', '18:00', 3, 'Tennis', 'Bob'),
+    ('2011-09-12', '20:00', 4, 'Football', 'Eva');
